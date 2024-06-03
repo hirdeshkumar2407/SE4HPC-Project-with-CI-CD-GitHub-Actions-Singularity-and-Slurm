@@ -59,7 +59,7 @@ jobs:
           path: build
 
       - name: Run Test Cases
-        run: ctest -VV
+        run: sudo ctest -VV
         working-directory: build
 
       - name: Install Singularity
