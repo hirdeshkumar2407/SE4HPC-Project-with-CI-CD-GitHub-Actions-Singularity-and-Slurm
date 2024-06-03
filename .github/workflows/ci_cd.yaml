@@ -38,6 +38,12 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Archive build directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
   # Job to run tests, build and run Singularity image
   test-build-run-singularity:
     runs-on: ubuntu-latest
@@ -45,6 +51,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Download build directory
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
 
       - name: Run Test Cases
         run: ctest -VV
