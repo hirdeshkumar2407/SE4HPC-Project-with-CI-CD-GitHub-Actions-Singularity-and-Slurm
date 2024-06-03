@@ -79,19 +79,6 @@ jobs:
       - name: List known hosts for verification
         run: cat ~/.ssh/known_hosts
 
-      - name: SSH into remote server and run commands
-        env:
-          SSH_HOST: ${{ secrets.REMOTE_HOST }}
-          SSH_USER: ${{ secrets.REMOTE_USER }}
-          SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
-        run: |
-          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
-            # Commands to run on the remote server
-            echo "Running on remote server"
-            hostname
-            # Add your commands here
-          EOF
-
       - name: Transfer code
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
