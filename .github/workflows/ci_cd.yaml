@@ -150,7 +150,7 @@ jobs:
         run: ls -l
 
       - name: Run MPI in Singularity
-        run: singularity exec build/matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+        run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 
   # Job to deploy to remote server
   deploy:
