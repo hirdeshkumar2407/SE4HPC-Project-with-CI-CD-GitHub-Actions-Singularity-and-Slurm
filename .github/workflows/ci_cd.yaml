@@ -148,6 +148,12 @@ jobs:
           name: build
           path: build
 
+      - name: Download build image
+        uses: actions/download-artifact@v2
+        with:
+          name: singularity-image
+          path: build/matrix_multiplication.sif
+
       - name: Set up MPI environment variables
         run: |
           echo 'export PATH=/usr/lib/x86_64-linux-gnu/mpich/bin:$PATH' >> ~/.bashrc
@@ -179,13 +185,22 @@ jobs:
           name: repo
           path: .
 
-      - name: Download Singularity image
+      - name: List files for verification 2
+        run: ls -l build
+
+      - name: Download build directory
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Download build image
         uses: actions/download-artifact@v2
         with:
           name: singularity-image
-          path: build
+          path: build/matrix_multiplication.sif
       
-      - name: List files for verification
+      - name: List files for verification 3
         run: ls -l build
 
       - name: Remove old host key
