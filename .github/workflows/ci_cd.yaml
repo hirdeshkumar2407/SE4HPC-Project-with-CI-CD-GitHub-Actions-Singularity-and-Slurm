@@ -84,5 +84,5 @@ jobs:
           # Add your commands here
   #      EOF
 
-     - name: Transfer code
+     - name: Transfer code to remote server
        run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix* main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST
