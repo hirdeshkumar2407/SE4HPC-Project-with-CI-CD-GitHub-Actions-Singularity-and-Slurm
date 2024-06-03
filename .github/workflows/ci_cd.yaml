@@ -3,8 +3,8 @@ name: C++ My_project_SE4HPC_part1&2 CICD Pipeline
 on: [push, pull_request]
 
 jobs:
-  # Job to checkout the code and set up the environment
-  setup:
+  # Job to checkout the code, set up the environment, and build the project
+  setup-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,21 +21,13 @@ jobs:
       - name: Update APT and install dependencies
         run: |
           sudo apt update
-          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev openssh-server sshpass
+          sudo apt install -y mpich libmpich-dev openssh-server sshpass
 
-      - name: Set up Open MPI environment variables
+      - name: Set up MPI environment variables
         run: |
-          echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >> ~/.bashrc
-          echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+          echo 'export PATH=/usr/lib/x86_64-linux-gnu/mpich/bin:$PATH' >> ~/.bashrc
+          echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/mpich/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
           source ~/.bashrc
-
-  # Job to build the project
-  build:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
       - name: Create and navigate to build directory
         run: mkdir build
@@ -46,13 +38,10 @@ jobs:
       - name: Build
         run: cmake --build build
 
-      - name: Send back the main file
-        run: cp -av build/main .
-
-  # Job to run tests
-  test:
+  # Job to run tests, build and run Singularity image
+  test-build-run-singularity:
     runs-on: ubuntu-latest
-    needs: build
+    needs: setup-build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -60,14 +49,6 @@ jobs:
       - name: Run Test Cases
         run: ctest -VV
         working-directory: build
-
-  # Job to build Singularity image
-  singularity-build:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
       - name: Install Singularity
         run: |
@@ -81,26 +62,18 @@ jobs:
       - name: Build Singularity Image
         run: sudo singularity build matrix_multiplication.sif Singularity.def
 
-  # Job to run MPI in Singularity
-  singularity-run:
-    runs-on: ubuntu-latest
-    needs: singularity-build
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Run MPI in Singularity
         run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 
   # Job to deploy to remote server
   deploy:
     runs-on: ubuntu-latest
-    needs: singularity-run
+    needs: test-build-run-singularity
     steps:
       - name: SSH into remote server and run commands
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
-          SSH_USER: ${{ secrets.REMOTE_USER}}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
         run: |
           sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
@@ -113,6 +86,6 @@ jobs:
       - name: Transfer code
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
-          SSH_USER: ${{ secrets.REMOTE_USER}}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
         run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix* main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST:/home/$SSH_USER/
