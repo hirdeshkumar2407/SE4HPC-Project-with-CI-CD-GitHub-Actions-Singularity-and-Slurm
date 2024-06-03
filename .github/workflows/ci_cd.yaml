@@ -1,88 +1,78 @@
 name: C++ My_project_SE4HPC_part1&2 CI
-
-on: [push, pull_request]
-
+'on':
+  - push
+  - pull_request
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive  # Initialize and update submodules
-
-    - name: Setup CMake
-      uses: jwlawson/actions-setup-cmake@v1
-   
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Update APT and install Open MPI
-      run: |
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Update APT and install Open MPI
+        run: >
           sudo apt update
-          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev openssh-server sshpass
 
-    - name: Set up Open MPI environment variables
-      run: |
-          echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >> ~/.bashrc
-          echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev
+          openssh-server sshpass
+      - name: Set up Open MPI environment variables
+        run: >
+          echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >>
+          ~/.bashrc
+
+          echo 'export
+          LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH'
+          >> ~/.bashrc
+
           source ~/.bashrc
-          
-    - name: Create and navigate to build directory
-      run: mkdir build
-
-    - name: Configure CMake
-      run: cmake -S . -B build
-
-    - name: Build
-      run: cmake --build build
-
-    - name: Run Test Cases
-      run: ctest -VV
-      working-directory: build
-    
-    - name: Send back the main file
-      run: cp -av build/main .
-   
-    - name: Change dir
-      run: cd ..
- 
-    - name: Run mpi
-      run: mpirun -np 2 ./main 
-
-    - name: Install Singularity
-      run: |
+      - name: Create and navigate to build directory
+        run: mkdir build
+      - name: Configure CMake
+        run: cmake -S . -B build
+      - name: Build
+        run: cmake --build build
+      - name: Run Test Cases
+        run: ctest -VV
+        working-directory: build
+      - name: Send back the main file
+        run: cp -av build/main .
+      - name: Change dir
+        run: cd ..
+      - name: Run mpi
+        run: mpirun -np 2 ./main
+      - name: Install Singularity
+        run: >
           sudo apt-get update
+
           sudo apt-get install -y wget
-          wget https://github.com/sylabs/singularity/releases/download/v4.1.3/singularity-ce_4.1.3-focal_amd64.deb
+
+          wget
+          https://github.com/sylabs/singularity/releases/download/v4.1.3/singularity-ce_4.1.3-focal_amd64.deb
+
           sudo apt-get install -y libfuse2 fuse2fs
+
           sudo dpkg -i singularity-ce_4.1.3-focal_amd64.deb
+
           sudo apt-get install -f
-          
-    - name: Build Singularity Image
-      run: sudo singularity build matrix_multiplication.sif Singularity.def
-
-    - name: Change Directory
-      run: cd ..
-
-    - name: Run MPI in Singularity finally
-      run:  singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
-    
-    - name: SSH into remote server and run commands
-      env:
-        SSH_HOST: ${{ secrets.REMOTE_HOST }}
-        SSH_USER: ${{ secrets.REMOTE_USER}}
-        SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
-    
-  #   run: |
-  #      sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
-          # Commands to run on the remote server
-  #        echo "Running on remote server"
-  #       hostname
-          # Add your commands here
-  #      EOF
-
-     - name: Transfer code to remote server
-       run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix* main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST
+      - name: Build Singularity Image
+        run: sudo singularity build matrix_multiplication.sif Singularity.def
+      - name: Change Directory
+        run: cd ..
+      - name: Run MPI in Singularity finally
+        run: >-
+          singularity exec matrix_multiplication.sif mpirun -np 2
+          /usr/src/matrix_multiplication/main
+      - name: SSH into remote server and run commands
+        env:
+          SSH_HOST: '${{ secrets.REMOTE_HOST }}'
+          SSH_USER: '${{ secrets.REMOTE_USER}}'
+          SSH_PASS: '${{ secrets.REMOTE_PASSWORD }}'
+      - name: Transfer code
+        run: >-
+          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix*
+          main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST
