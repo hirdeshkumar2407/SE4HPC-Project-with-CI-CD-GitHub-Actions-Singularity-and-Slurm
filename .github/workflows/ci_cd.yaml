@@ -58,6 +58,9 @@ jobs:
           name: build
           path: build
 
+      - name: Set execute permissions for test executable
+        run: chmod +x build/test_multiplication
+
       - name: Run Test Cases
         run: sudo ctest -VV
         working-directory: build
