@@ -68,12 +68,12 @@ jobs:
       run: cd ..
 
     - name: Run MPI in Singularity finally
-      run: sudo singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+      run:  singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
     
     - name: SSH into remote server and run commands
       env:
         SSH_HOST: ${{ secrets.REMOTE_HOST }}
-        SSH_USER: ${{ secrets.REMOTE_USER }}
+        SSH_USER: ${{ secrets.REMOTE_USER}}
         SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
     
       run: |
