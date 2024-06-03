@@ -152,8 +152,11 @@ jobs:
           echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/mpich/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
           source ~/.bashrc
 
+      - name: List files for verification
+        run: ls -l build  
+
       - name: Run MPI in Singularity
-        run: singularity exec build/matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+        run: singularity exec build/matrix_multiplication.sif mpirun -np 2 main
 
   # Job to deploy to remote server
   deploy:
