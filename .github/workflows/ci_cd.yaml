@@ -22,7 +22,7 @@ jobs:
     - name: Update APT and install Open MPI
       run: |
           sudo apt update
-          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev
+          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev openssh-server sshpass
 
     - name: Set up Open MPI environment variables
       run: |
@@ -68,5 +68,18 @@ jobs:
       run: cd ..
 
     - name: Run MPI in Singularity finally
-      run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+      run: sudo singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
     
+    - name: SSH into remote server and run commands
+      env:
+        SSH_HOST: ${{ secrets.REMOTE_HOST }}
+        SSH_USER: ${{ secrets.REMOTE_USER }}
+        SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+    
+      run: |
+        sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+          # Commands to run on the remote server
+          echo "Running on remote server"
+          hostname
+          # Add your commands here
+        EOF
