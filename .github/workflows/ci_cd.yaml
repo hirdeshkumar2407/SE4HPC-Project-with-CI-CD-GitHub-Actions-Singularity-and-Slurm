@@ -1,4 +1,4 @@
-name: C++ My_project_SE4HPC_part1&2 CI
+name: C++ My_project_SE4HPC_part1&2 CICD Pipeline
 
 on: [push, pull_request]
 
