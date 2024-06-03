@@ -50,7 +50,7 @@ jobs:
         run: mkdir build
 
       - name: Send files for verification
-        run: cp -av matixA.txt matrixB.txt CMakeLists.txt Singularity.def build/
+        run: cp -av matrixA.txt matrixB.txt CMakeLists.txt Singularity.def build/
 
       - name: Configure CMake
         run: cmake -S . -B build
@@ -58,20 +58,11 @@ jobs:
       - name: Build
         run: cmake --build build
 
-      - name: Main file
-        run: cp build/main ../
-
       - name: Archive build directory
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: build
-
-      - name: Archive main file
-        uses: actions/upload-artifact@v2
-        with:
-          name: main-file
-          path: main
 
   # Job to run tests
   test:
@@ -114,6 +105,8 @@ jobs:
           name: build
           path: build
 
+      - name: Verify Singularity.def presence
+        run: ls -l build/Singularity.def
 
       - name: Install Singularity
         run: |
@@ -125,13 +118,13 @@ jobs:
           sudo apt-get install -f
 
       - name: Build Singularity Image
-        run: sudo singularity build matrix_multiplication.sif Singularity.def
+        run: sudo singularity build build/matrix_multiplication.sif build/Singularity.def
 
       - name: Archive Singularity image
         uses: actions/upload-artifact@v2
         with:
           name: singularity-image
-          path: matrix_multiplication.sif
+          path: build/matrix_multiplication.sif
 
   # Job to run MPI in Singularity
   singularity-run:
@@ -142,16 +135,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: singularity-image
-          path: .
-
-      - name: Download main file
-        uses: actions/download-artifact@v2
-        with:
-          name: main-file
-          path: .
+          path: build
 
       - name: Run MPI in Singularity
-        run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+        run: singularity exec build/matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 
   # Job to deploy to remote server
   deploy:
@@ -164,17 +151,11 @@ jobs:
           name: repo
           path: .
 
-      - name: Download main file
-        uses: actions/download-artifact@v2
-        with:
-          name: main-file
-          path: .
-
       - name: Download Singularity image
         uses: actions/download-artifact@v2
         with:
           name: singularity-image
-          path: .
+          path: build
 
       - name: Remove old host key
         run: |
@@ -185,7 +166,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: List files for verification
-        run: ls -l 
+        run: ls -l build
 
       - name: SSH into remote server and run commands
         env:
@@ -205,4 +186,4 @@ jobs:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
-        run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix* main* matrix_multiplication.sif $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+        run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no build/Singularity.def build/matrix* build/main* $SSH_USER@$SSH_HOST:/home/$SSH_USER/
