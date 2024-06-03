@@ -96,6 +96,12 @@ jobs:
           name: build
           path: build
 
+      - name: Main file
+        run: cp main  ../  
+
+      - name: Change location
+        run: cd ..
+
       - name: Install Singularity
         run: |
           sudo apt-get update
