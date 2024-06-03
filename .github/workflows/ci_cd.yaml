@@ -56,13 +56,8 @@ jobs:
         run: cmake --build build
 
       - name: Main file
-        run: cp build/main /home/runner/work/My-Project--SE4HPC_project_part2/
-
-      - name: list 1
-        run: ls -lhrt /home/runner/work/My-Project--SE4HPC_project_part2/  
-
-      - name: list 2
-        run: ls -lhrt /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
+        run: cp build/main /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
+   
 
       - name: Archive build directory
         uses: actions/upload-artifact@v2
@@ -105,11 +100,14 @@ jobs:
           name: build
           path: build
 
+      - name: list 2
+        run: ls -lhrt /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
+
       - name: Change directory
-        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/
+        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
       - name: Verify Singularity.def presence
-        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/Singularity.def
+        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/Singularity.def
 
       - name: Install Singularity
         run: |
@@ -121,8 +119,8 @@ jobs:
           sudo apt-get install -f
 
       - name: Build Singularity Image
-        run: sudo singularity build matrix_multiplication.sif /home/runner/work/My-Project--SE4HPC_project_part2/Singularity.def
-        working-directory: /home/runner/work/My-Project--SE4HPC_project_part2/
+        run: sudo singularity build matrix_multiplication.sif /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/Singularity.def
+        working-directory: /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
       - name: Archive Singularity image
         uses: actions/upload-artifact@v2
@@ -142,11 +140,11 @@ jobs:
           path: .
 
       - name: Change directory
-        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/
+        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
       - name: Run MPI in Singularity
         run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
-        working-directory: /home/runner/work/My-Project--SE4HPC_project_part2/
+        working-directory: /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
   # Job to deploy to remote server
   deploy:
@@ -154,7 +152,7 @@ jobs:
     needs: singularity-run
     steps:
       - name: Change directory
-        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/
+        run: cd /home/runner/workMy-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
       - name: Remove old host key
         run: |
@@ -165,7 +163,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
       - name: List files for verification
-        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/
+        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
 
       - name: SSH into remote server and run commands
         env:
