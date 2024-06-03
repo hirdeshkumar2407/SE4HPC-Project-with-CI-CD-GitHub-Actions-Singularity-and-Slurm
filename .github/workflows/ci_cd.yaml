@@ -58,6 +58,12 @@ jobs:
       - name: Main file
         run: cp build/main /home/runner/work/My-Project--SE4HPC_project_part2/
 
+      - name: list 1
+        run: ls -lhrt /home/runner/work/My-Project--SE4HPC_project_part2/  
+
+      - name: list 2
+        run: ls -lhrt /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/  
+
       - name: Archive build directory
         uses: actions/upload-artifact@v2
         with:
