@@ -100,10 +100,10 @@ jobs:
           path: build
 
       - name: Change directory
-        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2
+        run: cd /home/runner/work/My-Project--SE4HPC_project_part2/
 
       - name: Verify Singularity.def presence
-        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/My-Project--SE4HPC_project_part2/Singularity.def
+        run: ls -l /home/runner/work/My-Project--SE4HPC_project_part2/Singularity.def
 
       - name: Install Singularity
         run: |
