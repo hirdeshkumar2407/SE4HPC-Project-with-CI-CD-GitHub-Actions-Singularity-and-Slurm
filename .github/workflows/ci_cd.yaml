@@ -62,6 +62,7 @@ jobs:
 
       - name: Run MPI in Singularity
         run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+
       - name: Ensure SSH known_hosts file exists
         run: |
           mkdir -p ~/.ssh
@@ -77,14 +78,14 @@ jobs:
 
       - name: List known hosts for verification
         run: cat ~/.ssh/known_hosts
-        
+
       - name: SSH into remote server and run commands
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
         run: |
-          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
             # Commands to run on the remote server
             echo "Running on remote server"
             hostname
@@ -97,6 +98,6 @@ jobs:
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
         run: |
-          ssh-keygen -R $SSH_HOST
+          ssh-keygen -R $SSH_HOST || true
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no matrix_multiplication.sif build/Singularity.def build/matrix* build/main* $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif build/Singularity.def build/matrix* build/main* $SSH_USER@$SSH_HOST:/home/$SSH_USER/
