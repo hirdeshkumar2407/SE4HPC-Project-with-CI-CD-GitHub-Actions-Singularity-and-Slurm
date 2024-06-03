@@ -105,8 +105,7 @@ jobs:
           name: build
           path: build
 
-      - name: Verify Singularity.def presence
-        run: ls -l build/Singularity.def
+   
 
       - name: Install Singularity
         run: |
@@ -119,6 +118,9 @@ jobs:
 
       - name: Build Singularity Image
         run: sudo singularity build build/matrix_multiplication.sif build/Singularity.def
+
+      - name: List files for verification
+        run: ls -l build
 
       - name: Archive Singularity image
         uses: actions/upload-artifact@v2
