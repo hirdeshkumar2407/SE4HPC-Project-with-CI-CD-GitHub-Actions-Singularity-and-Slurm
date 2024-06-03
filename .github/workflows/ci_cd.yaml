@@ -63,8 +63,7 @@ jobs:
       - name: Run MPI in Singularity
         run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 
-      - name: Remove old host key
-        run: ssh-keygen -R ${{ secrets.REMOTE_HOST }}
+     
 
       - name: Add new host key
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
