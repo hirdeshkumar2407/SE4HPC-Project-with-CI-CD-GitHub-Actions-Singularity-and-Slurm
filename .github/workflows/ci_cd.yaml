@@ -155,6 +155,9 @@ jobs:
       - name: List files for verification
         run: ls -l build  
 
+      -name: change directory
+        run: cd build
+        
       - name: Run MPI in Singularity
         run: singularity exec build/matrix_multiplication.sif mpirun -np 2 main
 
