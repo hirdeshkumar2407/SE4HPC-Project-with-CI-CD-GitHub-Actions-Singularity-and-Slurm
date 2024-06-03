@@ -100,4 +100,4 @@ jobs:
         run: |
           ssh-keygen -R $SSH_HOST || true
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt $SSH_USER@$SSH_HOST
