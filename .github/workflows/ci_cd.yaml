@@ -76,10 +76,13 @@ jobs:
         SSH_USER: ${{ secrets.REMOTE_USER}}
         SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
     
-      run: |
-        sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+  #   run: |
+  #      sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
           # Commands to run on the remote server
-          echo "Running on remote server"
-          hostname
+  #        echo "Running on remote server"
+  #       hostname
           # Add your commands here
-        EOF
+  #      EOF
+
+     - name: Transfer code
+       run: sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix* main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST
