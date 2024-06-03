@@ -67,12 +67,12 @@ jobs:
         run: >-
           singularity exec matrix_multiplication.sif mpirun -np 2
           /usr/src/matrix_multiplication/main
-      - name: SSH into remote server and run commands
+      - name: SSH into remote server and run commands 
         env:
           SSH_HOST: '${{ secrets.REMOTE_HOST }}'
           SSH_USER: '${{ secrets.REMOTE_USER}}'
           SSH_PASS: '${{ secrets.REMOTE_PASSWORD }}'
-      - name: Transfer code
+      - name: Transfer code there
         run: >-
           sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no *.def matrix*
           main* matrix_multiplication.sif ../ $SSH_USER@$SSH_HOST
