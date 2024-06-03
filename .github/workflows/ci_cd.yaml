@@ -43,12 +43,29 @@ jobs:
       run: ctest -VV
       working-directory: build
     
-    - name: send back the main file
+    - name: Send back the main file
       run: cp -av build/main .
    
-    - name: change dir
+    - name: Change dir
       run: cd ..
  
-    - name: run mpi
-      run: mpirun -np 2 ./main
+    - name: Run mpi
+      run: mpirun -np 2 ./main 
+
+    - name: Install Singularity
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/sylabs/singularity/releases/download/v3.7.3/singularity-ce_3.7.3-focal_amd64.deb
+          sudo dpkg -i singularity-ce_3.7.3-focal_amd64.deb
+          sudo apt-get install -f
+          
+    - name: Build Singularity Image
+      run: singularity build matrix_multiplication.sif Singularity.def
+
+    - name: Change Directory
+      run: cd ..
+
+    - name: Run MPI in Singularity finally
+      run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
     
