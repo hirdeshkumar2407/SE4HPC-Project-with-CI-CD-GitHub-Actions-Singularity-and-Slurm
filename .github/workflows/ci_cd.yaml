@@ -42,3 +42,13 @@ jobs:
     - name: Run Test Cases
       run: ctest -VV
       working-directory: build
+    
+    - name: send back the main file
+      run: cp -av build/main .
+   
+    - name: change dir
+      run: cd ..
+ 
+    - name: run mpi
+      run: mpirun -np 2 ./main
+    
