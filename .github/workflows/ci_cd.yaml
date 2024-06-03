@@ -1,0 +1,44 @@
+name: C++ My_project_SE4HPC_part1&2 CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive  # Initialize and update submodules
+
+    - name: Setup CMake
+      uses: jwlawson/actions-setup-cmake@v1
+   
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Update APT and install Open MPI
+      run: |
+          sudo apt update
+          sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev
+
+    - name: Set up Open MPI environment variables
+      run: |
+          echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >> ~/.bashrc
+          echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+          source ~/.bashrc
+          
+    - name: Create and navigate to build directory
+      run: mkdir build
+
+    - name: Configure CMake
+      run: cmake -S . -B build
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Run Test Cases
+      run: ctest -VV
+      working-directory: build
