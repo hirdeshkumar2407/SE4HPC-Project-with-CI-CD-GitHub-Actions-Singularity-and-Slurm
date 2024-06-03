@@ -55,6 +55,9 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Main file
+        run: cp build/main ../
+
       - name: Archive build directory
         uses: actions/upload-artifact@v2
         with:
@@ -96,9 +99,8 @@ jobs:
           name: build
           path: build
 
-
-      - name: Change location
-        run: cd ..
+      - name: Verify Singularity.def presence
+        run: ls -l Singularity.def
 
       - name: Install Singularity
         run: |
@@ -111,6 +113,7 @@ jobs:
 
       - name: Build Singularity Image
         run: sudo singularity build matrix_multiplication.sif Singularity.def
+        working-directory: ..
 
       - name: Archive Singularity image
         uses: actions/upload-artifact@v2
