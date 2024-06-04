@@ -13,7 +13,6 @@
 # Perform calculation
 echo "Performing calculation..."
 
-module load intel intelmpii
 
-mpirun -n 2 singularity exec matrix_multiplication.sif /usr/src/matrix_multiplication/main
+/usr/mpi/gcc/openmpi-4.0.4rc3/mpirun -n 2 singularity exec matrix_multiplication.sif /usr/src/matrix_multiplication/main
 #singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main

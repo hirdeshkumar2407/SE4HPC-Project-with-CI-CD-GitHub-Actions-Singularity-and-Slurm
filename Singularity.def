@@ -22,5 +22,5 @@ From: ubuntu:latest
 %environment
     source /etc/profile.d/openmpi.sh
 
-%runscript
-    exec mpirun -np 2 /usr/src/matrix_multiplication/main
+#%runscript
+#    exec mpirun -np 2 /usr/src/matrix_multiplication/main
