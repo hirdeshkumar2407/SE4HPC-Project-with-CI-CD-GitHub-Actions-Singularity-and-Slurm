@@ -84,6 +84,7 @@ jobs:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+          SSH_DEST: ${{ secrets.REMOTE_DEST }}
         run: |
           sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
             # Commands to run on the remote server
@@ -97,7 +98,8 @@ jobs:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+          SSH_DEST: ${{ secrets.REMOTE_DEST }}
         run: |
           ssh-keygen -R $SSH_HOST || true
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt $SSH_USER@$SSH_HOST
+          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt $SSH_USER@$SSH_HOST:SSH_DEST

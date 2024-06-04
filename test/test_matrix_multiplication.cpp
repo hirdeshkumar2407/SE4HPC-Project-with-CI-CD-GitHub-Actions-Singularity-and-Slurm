@@ -33,7 +33,10 @@ TEST(MatrixMultiplication1, TestMultiplyMatrices2x3and3x2) {
 
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 
-/* 1: Working Directory: /home/hirdesh/My_project_SE4HPC_part1/build
+/*
+REASON FOR THE TEST CASE 1: This test case is designed to test the matrix multiplication function with a 2x3 matrix A and a 3x2 matrix B. The expected result is a 2x2 matrix. The test case checks if the function produces the correct result with postive values.
+
+ 1: Working Directory: /home/hirdesh/My_project_SE4HPC_part1/build
 1: Test timeout computed to be: 10000000
 1: Note: Google Test filter = MatrixMultiplication1.TestMultiplyMatrices2x3and3x2
 1: [==========] Running 1 test from 1 test suite.
@@ -93,6 +96,8 @@ TEST(MatrixMultiplication2, TestMultiplyMatricesNegative2x3and3x1) {
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
     
 /*
+
+REASON FOR THE TEST CASE 2: This test case is designed to test the matrix multiplication function with a 2x3 matrix A and a 3x1 matrix B. The matrix B includes some negatives values, so this to check how the program handles negative numbers. The expected result is a 2x1 matrix. The test case checks if the function produces the correct result.
 
 2: [==========] Running 1 test from 1 test suite.
 2: [----------] Global test environment set-up.
@@ -154,7 +159,11 @@ TEST(MatrixMultiplication3, TestMultiplyMatricesPostiveAnswer2x3and3x1) {
     };
 
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
-/*3: [----------] 1 test from MatrixMultiplication3
+/*
+
+REASON FOR THE TEST CASE 3: This test case is designed to test the matrix multiplication function with a 2x3 matrix A and a 3x1 matrix B. Matirx B contains 1, so to check multpilcation with 1 situations is to be seen. The expected result is a 2x1 matrix. The test case checks if the function produces the correct result with postive values.
+
+3: [----------] 1 test from MatrixMultiplication3
 3: [ RUN      ] MatrixMultiplication3.TestMultiplyMatricesPostiveAnswer2x3and3x1
 3: Error 1: Element-wise multiplication of ones detected!
 3: Error 7: Result matrix contains a number between 11 and 20!
@@ -215,7 +224,11 @@ TEST(MatrixMultiplication4, TestMultiplyMatricesNegativwAnswer3x4and3x1) {
     };
 
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
-    /* 4: Test timeout computed to be: 10000000
+    /*
+    
+    Reason for this test cases is to check the multiplication of 4x3 matrix with 3x1 matrix with negative values. The expected result is a 3x1 matrix with negative values. The test case checks if the function produces the correct result with negative values.
+
+     4: Test timeout computed to be: 10000000
 4: Note: Google Test filter = MatrixMultiplication4.TestMultiplyMatricesNegativwAnswer3x4and3x1
 4: [==========] Running 1 test from 1 test suite.
 4: [----------] Global test environment set-up.
@@ -282,7 +295,10 @@ TEST(MatrixMultiplication5, TestMultiplyMatricesPostiveAnswer2x3and3x1) {
     };
 
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
-    /* 5: [ RUN      ] MatrixMultiplication5.TestMultiplyMatricesPostiveAnswer2x3and3x1
+    /* 
+   REASON FOR THE TEST CASES 5: This test cases is to check the multiplication of 2x3 matrix with 3x1 matrix with 1s values. The expected result is a 2x1 matrix with positive values. The test case checks if the function produces the correct result with positive values.
+
+5: [ RUN      ] MatrixMultiplication5.TestMultiplyMatricesPostiveAnswer2x3and3x1
 5: Error 1: Element-wise multiplication of ones detected!
 5: Error 7: Result matrix contains a number between 11 and 20!
 5: Error 13: The first element of matrix A is equal to the first element of matrix B!
@@ -337,7 +353,11 @@ TEST(MatrixMultiplication6, TestMultiplyMatricesPostiveAnswer2x1and1x1) {
 
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 
-    /* 6: [==========] Running 1 test from 1 test suite.
+    /* 
+
+REASON FOR THE TEST CASES 6: this case is to check the multiplication of 2x1 matrix with 1x1 matrix with 1 values. The expected result is a 2x1 matrix with positive values. The test case checks if the function produces the correct result with positive values.
+
+6: [==========] Running 1 test from 1 test suite.
 6: [----------] Global test environment set-up.
 6: [----------] 1 test from MatrixMultiplication6
 6: [ RUN      ] MatrixMultiplication6.TestMultiplyMatricesPostiveAnswer2x1and1x1
@@ -385,6 +405,10 @@ TEST(MatrixMultiplication6, TestMultiplyMatricesSquareMatrixWithNeg) {
     };
 
     /*
+
+    REASON FOR THE TEST CASES 7: This test case is designed to test the matrix multiplication function with a 2x2 matrix A and a 2x2 matrix B. The expected result is a 2x2 matrix. The test case checks if the function produces the correct result with negative values.
+        
+   
         Error 3: Matrix A contains a negative number!
         Error 4: Matrix B contains the number 3!
         Error 4: Matrix B contains the number 3!
@@ -431,6 +455,8 @@ TEST(MatrixMultiplication6, TestMultiplyMatricesNegativeResult2x2) {
     };
 
     /*
+       REASON FOR THE TEST CASES 8: This test case is designed to test the matrix multiplication function with a 2x2 matrix A and a 2x2 matrix B. The expected result is a 2x2 matrix. The test case checks if the function produces the correct result with negative values.
+    
         Error 1: Element-wise multiplication of ones detected!
         Error 1: Element-wise multiplication of ones detected!
         Error 3: Matrix A contains a negative number!
@@ -472,7 +498,10 @@ TEST(MatrixMultiplication6, TestMultiplyMatricesPosResult2x2) {
         
     };
 
-    /*
+    /* 
+
+    REASON FOR THE TEST CASES 9: This test case is designed to test the matrix multiplication function with a 2x2 matrix A and a 2x2 matrix B. The expected result is a 2x2 matrix. The test case checks if the function produces the correct result with positive values.
+
         Error 7: Result matrix contains a number between 11 and 20!
         Error 1: Element-wise multiplication of ones detected!
         Error 7: Result matrix contains a number between 11 and 20!
