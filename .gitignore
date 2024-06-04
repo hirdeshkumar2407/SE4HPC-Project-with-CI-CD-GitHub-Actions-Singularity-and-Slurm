@@ -1,3 +1,5 @@
 build/
 test/
 googletest/
+matrix_multiplication.sif
+*.sif
