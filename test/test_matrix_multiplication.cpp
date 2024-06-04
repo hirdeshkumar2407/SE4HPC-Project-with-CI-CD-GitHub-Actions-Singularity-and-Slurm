@@ -226,7 +226,7 @@ TEST(MatrixMultiplication4, TestMultiplyMatricesNegativwAnswer3x4and3x1) {
     ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
     /*
     
-    Reason for this test cases is to check the multiplication of 4x3 matrix with 3x1 matrix with negative values. The expected result is a 3x1 matrix with negative values. The test case checks if the function produces the correct result with negative values.
+    REASON FOR TEST CASE 4:  Reason for this test cases is to check the multiplication of 4x3 matrix with 3x1 matrix with negative values. The expected result is a 3x1 matrix with negative values. The test case checks if the function produces the correct result with negative values.
 
      4: Test timeout computed to be: 10000000
 4: Note: Google Test filter = MatrixMultiplication4.TestMultiplyMatricesNegativwAnswer3x4and3x1

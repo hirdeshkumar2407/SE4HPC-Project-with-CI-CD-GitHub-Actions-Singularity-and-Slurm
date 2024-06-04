@@ -1,4 +1,4 @@
-# SE4HPCproject
+# SE4HPCprojects
 
 ## Step 2 -- From build to release and manual job execution 
 
