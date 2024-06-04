@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=calc_script  # Job name
+#SBATCH --job-name=matrix_mul_hnm  # Job name
 #SBATCH --output=matrix_multiplication.out.log  # Capture standard output
 #SBATCH --error=matrix_multiplication.err.log   # Capture standard error
 #SBATCH --partition=short          # Queue (partition) to submit to
