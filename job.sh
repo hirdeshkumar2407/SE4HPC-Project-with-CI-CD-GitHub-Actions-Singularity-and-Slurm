@@ -12,7 +12,7 @@
 
 # Perform calculation
 echo "Performing calculation..."
-singularity exec matrix_multiplication-2.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 sleep 30  # Simulate matrix  computation (replace with your actual calculation)
 
 # Print result
