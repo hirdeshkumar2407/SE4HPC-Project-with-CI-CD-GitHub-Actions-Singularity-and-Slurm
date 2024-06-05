@@ -12,5 +12,5 @@
 echo "Performing calculation..."
 
 
-/usr/mpi/gcc/openmpi-4.0.4rc3/bin/mpirun  -n 2 singularity exec matrix_multiplication.sif /usr/src/matrix_multiplication/main
+mpirun  -n 2 singularity exec matrix_multiplication.sif /usr/src/matrix_multiplication/main
 #singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
