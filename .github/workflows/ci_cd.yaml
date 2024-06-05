@@ -68,6 +68,27 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
 
+      - name: Remove old host key
+        run: |
+          ssh-keygen -R ${{ secrets.REMOTE_HOST }} || true
+
+      - name: Add new host key
+        run: |
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: SSH into remote server and remove old files
+        env:
+          SSH_HOST: ${{ secrets.REMOTE_HOST }}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
+          SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+          SSH_DEST: ${{ secrets.REMOTE_DEST }}
+        run: |
+          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
+            # Commands to run on the remote server
+             rm -rf $SSH_DEST/*
+            # Add your commands here
+          EOF   
+
       - name: Transfer code
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
@@ -125,3 +146,23 @@ jobs:
             # Add your commands here
           EOF
  
+      - name: Remove old host key
+        run: |
+          ssh-keygen -R ${{ secrets.REMOTE_HOST }} || true
+
+      - name: Add new host key
+        run: |
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: SSH into remote server and print the output of the job
+        env:
+          SSH_HOST: ${{ secrets.REMOTE_HOST }}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
+          SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+          SSH_DEST: ${{ secrets.REMOTE_DEST }}
+        run: |
+          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
+            # Commands to run on the remote server
+             cat matrix_multiplication.out.log
+            # Add your commands here
+          EOF
