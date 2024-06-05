@@ -3,14 +3,14 @@ From: ubuntu:latest
 
 %post
     # Update APT and install necessary packages
-    #apt-get update && apt-get install -y openmpi-bin openmpi-common libopenmpi-dev
+    apt-get update && apt-get install -y openmpi-bin openmpi-common libopenmpi-dev
 
     # Set up Open MPI environment variables
-    #echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >> /etc/profile.d/openmpi.sh
-    #echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH' >> /etc/profile.d/openmpi.sh
+    echo 'export PATH=/usr/lib/x86_64-linux-gnu/openmpi/bin:$PATH' >> /etc/profile.d/openmpi.sh
+    echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openmpi/lib:$LD_LIBRARY_PATH' >> /etc/profile.d/openmpi.sh
 
     # Source the Open MPI environment variables
-    #. /etc/profile.d/openmpi.sh
+    . /etc/profile.d/openmpi.sh
 
     # Create the target directory for the executable
     mkdir -p /usr/src/matrix_multiplication
