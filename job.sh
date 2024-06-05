@@ -12,5 +12,7 @@
 echo "Performing calculation..."
 
 
+export OMPI_MCA_orte_base_help_aggregate=0
+export TMPDIR=$(pwd)
 mpirun  -n 2 singularity exec matrix_multiplication.sif /usr/src/matrix_multiplication/main
 #singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main

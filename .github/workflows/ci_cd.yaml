@@ -68,6 +68,17 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
 
+      - name: Transfer code
+        env:
+          SSH_HOST: ${{ secrets.REMOTE_HOST }}
+          SSH_USER: ${{ secrets.REMOTE_USER }}
+          SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
+          SSH_DEST: ${{ secrets.REMOTE_DEST }}
+        run: |
+          ssh-keygen -R $SSH_HOST || true
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt job.sh $SSH_USER@$SSH_HOST:$SSH_DEST    
+
       - name: Remove old host key
         run: |
           ssh-keygen -R ${{ secrets.REMOTE_HOST }} || true
@@ -79,7 +90,7 @@ jobs:
       - name: List known hosts for verification
         run: cat ~/.ssh/known_hosts
 
-      - name: SSH into remote server and run commands
+      - name: SSH into remote server and change permissions
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
@@ -89,17 +100,31 @@ jobs:
           sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
             # Commands to run on the remote server
             echo "Running on remote server"
-            hostname
+            chmod +x job.sh
             # Add your commands here
           EOF
+ 
+      - name: Remove old host key
+        run: |
+          ssh-keygen -R ${{ secrets.REMOTE_HOST }} || true
 
-      - name: Transfer code
+      - name: Add new host key
+        run: |
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: SSH into remote server and run job
         env:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_PASS: ${{ secrets.REMOTE_PASSWORD }}
           SSH_DEST: ${{ secrets.REMOTE_DEST }}
         run: |
-          ssh-keygen -R $SSH_HOST || true
-          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null matrix_multiplication.sif matrixA.txt matrixB.txt job.sh $SSH_USER@$SSH_HOST:$SSH_DEST
+          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
+            # Commands to run on the remote server
+            echo "Running on remote server"
+            ./job.sh
+            sleep 60
+            cat matrix_multiplication.out.log
+            # Add your commands here
+          EOF
+ 
