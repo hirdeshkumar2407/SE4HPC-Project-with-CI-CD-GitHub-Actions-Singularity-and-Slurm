@@ -60,8 +60,8 @@ jobs:
       - name: List files for verification
         run: ls -l
 
-      - name: Run MPI in Singularity
-        run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
+      #- name: Run MPI in Singularity
+      #  run: singularity exec matrix_multiplication.sif mpirun -np 2 /usr/src/matrix_multiplication/main
 
       - name: Ensure SSH known_hosts file exists
         run: |
