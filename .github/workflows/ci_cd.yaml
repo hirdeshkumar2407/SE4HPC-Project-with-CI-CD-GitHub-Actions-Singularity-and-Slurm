@@ -121,10 +121,7 @@ jobs:
         run: |
           sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST << 'EOF'
             # Commands to run on the remote server
-            echo "Running on remote server"
-            ./job.sh
-            sleep 60
-            cat matrix_multiplication.out.log
+            /bin/bash job.sh && sleep 60 && cat matrix_multiplication.out.log
             # Add your commands here
           EOF
  
