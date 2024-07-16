@@ -37,8 +37,12 @@ make utility
 
 ```
 git clone https://github.com/hirdeshkumar2407/SE4HPC-Project-with-CI-CD-GitHub-Actions-Singularity-and-Slurm/.git
+
 cd My-Project--SE4HPC_project_part2
-Build the application:
+
+## Build the application:
+
+make
 ```
 
 #### Define the Singularity container:
