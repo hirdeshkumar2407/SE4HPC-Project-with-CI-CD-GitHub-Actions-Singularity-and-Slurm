@@ -1,54 +1,80 @@
-# SE4HPCproject
+# SE4HPC Project with CI/CD, GitHub Actions, Singularity, and Slurm
+### Overview
+This project demonstrates the implementation of CI/CD for a high-performance computing (HPC) application using GitHub Actions, Singularity containers, and Slurm workload manager. The application performs parallel matrix multiplication using MPI.
 
-## Step 2 -- From build to release and manual job execution 
+### Features
+Parallel Matrix Multiplication: Utilizes MPI for parallel computation.
+CI/CD Pipeline: Automates build, test, and release processes with GitHub Actions.
+Containerization: Employs Singularity for containerizing the application.
+Cluster Execution: Automates job submission to a Slurm cluster.
+C++ Implementation: Core application developed in C++.
+Makefile Support: Uses make for build automation.
 
-Focus now on the correct implementation of the matrix multiplication you
-find in <https://github.com/SimoneReale/SE4HPC_project_part2>. This is a
-parallel implementation that uses MPI and reads the matrices to be
-multiplied from two files, matrixA.txt and matrixB.txt. In these files
-the first row contains the matrix dimensions (number of rows and
-columns), while the other rows contain the matrix itself.
+## Repository Structure
+.github/workflows: Contains GitHub Actions workflows.
+include: Header files.
+lib: Library files.
+out-from-slrum-cluster: Outputs from the Slurm cluster.
+src: Source code.
+test: Test cases.
+Singularity.def: Singularity definition file.
+Makefile: Makefile for building the project.
+build.sh: Build script.
+job.sh: Slurm job submission script.
+matrixA.txt, matrixB.txt: Input matrices.
 
-Your task is to perform the following steps:
+### Getting Started
+#### Prerequisites
+Git
+GitHub Account
+MPI Library
+Singularity
+Access to a Slurm cluster
+C++ Compiler
+make utility
+##### Setup
+#### Clone the repository:
 
-**Preparation**: Use the template available here
-<https://github.com/SimoneReale/SE4HPC_project_part2> to create your own
-github repository. Add to this repository the tests you have created in
-Step1.
+```
+git clone https://github.com/hirdeshkumar2407/SE4HPC-Project-with-CI-CD-GitHub-Actions-Singularity-and-Slurm/.git
+cd My-Project--SE4HPC_project_part2
+Build the application:
+```
 
-**Automating the build, test and release processes**: Create a CI/CD
-pipeline that, when someone pushes files in the repo, executes the
-building and testing process.
+#### Define the Singularity container:
+Ensure Singularity.def is correctly set up to containerize the application.
 
-**Containerizing the application**: Go through the following steps:
+#### Running Tests
+Push changes to the repository to trigger the GitHub Actions workflow, which will build and test the application automatically.
 
--   Define a Singularity container descriptor for the matrix
-    multiplication program and push it in your repo.
+#### Deploying to Slurm
+Prepare Slurm job script:
+Edit job.sh as needed.
 
--   Extend the created action to create a container image from your
-    description.
+#### Transfer files to cluster:
+scp job.sh user@cluster:/path/to/job.sh
+scp matrixA.txt matrixB.txt user@cluster:/path/to/
+scp my_container.sif user@cluster:/path/to/
 
-**Executing on the cluster**: Go through the following steps:
+#### Submit job to Slurm:
 
--   Create a job.sh file to run your containerized application. Make
-    sure that the standard output and error are mapped to txt files.
+```
+sbatch job.sh
+```
 
--   Transfer on Galileo100 your job script and the container.
+### CI/CD Pipeline
+The CI/CD pipeline includes the following steps:
 
--   Submit your job to the cluster and check whether it works correctly.
+Build and Test: Automatically builds and tests the application on code push.
 
--   Push on your github repository your job.sh file and the files
-    obtained from the execution of the matrix multiplication.
+Containerize: Builds a Singularity container.
 
-## Step 3 -- Automating a job submission with containerization 
+Deploy: Transfers the container and job script to the Slurm cluster and submits the job.
 
-Extend the action you have created at step 3 to automate completely the
-process from a push on the repository to the execution of the
-containerized software on SLURM. To do so, you will have to move your
-container from the runner to the cluster. You can either use the scp
-command or you can publish your image on the Singularity registry and
-then pull it from the cluster. Don't forget to handle your secrets
-properly! You do not want to leave passwords and authentication tokens
-visible to everybody, so you will use the [secrets
-mechanism](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions?tool=cli).
 
+## Contributors
+[Hirdesh Kumar](https://github.com/hirdeshkumar2407)
+[Nadah Khaled](https://github.com/nadahkhaledd)}
+[Milica Sanjevic](https://github.com/milicasanjevic)
+[Professor Elisabetta Di Nitto](https://github.com/dinitto)
+[Teacher Assistant Simone Reale](https://github.com/SimoneReale)
