@@ -78,7 +78,11 @@ Deploy: Transfers the container and job script to the Slurm cluster and submits 
 
 ## Contributors
 [Hirdesh Kumar](https://github.com/hirdeshkumar2407)
-[Nadah Khaled](https://github.com/nadahkhaledd)}
+
+[Nadah Khaled](https://github.com/nadahkhaledd)
+
 [Milica Sanjevic](https://github.com/milicasanjevic)
+
 [Professor Elisabetta Di Nitto](https://github.com/dinitto)
+
 [Teacher Assistant Simone Reale](https://github.com/SimoneReale)
