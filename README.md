@@ -24,25 +24,25 @@ This project's success was a result of a talented and collaborative team effort,
 [Teacher Assistant Simone Reale](https://github.com/SimoneReale)
 
 ### Features
-Parallel Matrix Multiplication: Utilizes MPI for parallel computation.
-CI/CD Pipeline: Automates build, test, and release processes with GitHub Actions.
-Containerization: Employs Singularity for containerizing the application.
-Cluster Execution: Automates job submission to a Slurm cluster.
-C++ Implementation: Core application developed in C++.
-Makefile Support: Uses make for build automation.
+- Parallel Matrix Multiplication: Utilizes MPI for parallel computation.
+- CI/CD Pipeline: Automates build, test, and release processes with GitHub Actions.
+- Containerization: Employs Singularity for containerizing the application.
+- Cluster Execution: Automates job submission to a Slurm cluster.
+- C++ Implementation: Core application developed in C++.
+- Makefile Support: Uses make for build automation.
 
 ## Repository Structure
-.github/workflows: Contains GitHub Actions workflows.
-include: Header files.
-lib: Library files.
-out-from-slrum-cluster: Outputs from the Slurm cluster.
-src: Source code.
-test: Test cases.
-Singularity.def: Singularity definition file.
-Makefile: Makefile for building the project.
-build.sh: Build script.
-job.sh: Slurm job submission script.
-matrixA.txt, matrixB.txt: Input matrices.
+- .github/workflows: Contains GitHub Actions workflows.
+- include: Header files.
+- lib: Library files.
+- out-from-slrum-cluster: Outputs from the Slurm cluster.
+- src: Source code.
+- test: Test cases.
+- Singularity.def: Singularity definition file.
+- Makefile: Makefile for building the project.
+- build.sh: Build script.
+- job.sh: Slurm job submission script.
+- matrixA.txt, matrixB.txt: Input matrices.
 
 ### Getting Started
 #### Prerequisites
