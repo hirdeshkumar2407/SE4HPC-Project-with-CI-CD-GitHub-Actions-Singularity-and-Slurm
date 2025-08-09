@@ -1,6 +1,27 @@
 # SE4HPC Project with CI/CD, GitHub Actions, Singularity, and Slurm
-### Overview
-This project demonstrates the implementation of CI/CD for a high-performance computing (HPC) application using GitHub Actions, Singularity containers, and Slurm workload manager. The application performs parallel matrix multiplication using MPI.
+###  Project Mission
+In the world of High-Performance Computing, the challenge is not just writing fast code, but deploying it reliably and efficiently on complex supercomputer environments. This project, for the "Software Engineering for HPC" course at Politecnico di Milano, was designed to solve that exact problem.
+As the project lead, I guided our team in architecting a full, end-to-end CI/CD pipeline specifically for HPC applications. Our mission was to bring modern DevOps best practices to the world of scientific research, using industry-standard tools like GitHub Actions, Singularity containers, and the Slurm workload manager.
+The result is a fully automated system that can build, test, containerize, and deploy a parallel MPI application directly onto a supercomputer like Galileo100. This project demonstrates a crucial and rare skill: the ability to bridge the gap between agile software development and the rigorous demands of high-performance scientific computing.
+
+
+### The Team
+
+This project's success was a result of a talented and collaborative team effort, with invaluable guidance from our teaching staff.
+
+#### Contributors:
+
+[Hirdesh Kumar](https://github.com/hirdeshkumar2407)
+
+[Nadah Khaled](https://github.com/nadahkhaledd)
+
+[Milica Sanjevic](https://github.com/milicasanjevic)
+
+### Guidance:
+
+[Professor Elisabetta Di Nitto](https://github.com/dinitto)
+
+[Teacher Assistant Simone Reale](https://github.com/SimoneReale)
 
 ### Features
 Parallel Matrix Multiplication: Utilizes MPI for parallel computation.
@@ -76,13 +97,4 @@ Containerize: Builds a Singularity container.
 Deploy: Transfers the container and job script to the Slurm cluster and submits the job.
 
 
-## Contributors
-[Hirdesh Kumar](https://github.com/hirdeshkumar2407)
 
-[Nadah Khaled](https://github.com/nadahkhaledd)
-
-[Milica Sanjevic](https://github.com/milicasanjevic)
-
-[Professor Elisabetta Di Nitto](https://github.com/dinitto)
-
-[Teacher Assistant Simone Reale](https://github.com/SimoneReale)
